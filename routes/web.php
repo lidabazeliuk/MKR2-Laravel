@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\GradeController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 
 Route::get('/students', [StudentController::class, 'index'])->name('students.index');
 Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
@@ -17,3 +19,17 @@ Route::post('/grades', [GradeController::class, 'store'])->name('grades.store');
 Route::get('/grades/{grade}/edit', [GradeController::class, 'edit'])->name('grades.edit');
 Route::put('/grades/{grade}', [GradeController::class, 'update'])->name('grades.update');
 Route::delete('/grades/{grade}', [GradeController::class, 'destroy'])->name('grades.destroy');
+
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register']);
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::middleware('auth')->group(function () {
+    // Ваші захищені маршрути тут
+});
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
